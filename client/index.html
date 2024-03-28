@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web3 Smartphone shop</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-light">
+    <div
+      class="bg-primary fs-2 text-light p-4 d-flex justify-content-start align-items-center"
+    >
+      <span>Smartphone Shop</span>
+    </div>
+
+    <div
+      class="bg-info text-light p-2 d-flex justify-content-end align-items-center"
+    >
+      <span>Account&nbsp;:&nbsp;</span>
+      <span id="account" class=""></span>
+    </div>
+
+    <main class="p-4">
+      <div class="row">
+        <div class="col-9 container">
+          <div id="smartphoneList" class="d-flex flex-wrap"></div>
+        </div>
+
+        <div class="col-3 container bg-secondary rounded">
+          <div class="p-2 fs-2 text-light">Transaction History</div>
+          <div id="boughtList" class="d-flex flex-wrap flex-column"></div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
