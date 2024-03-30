@@ -5,9 +5,24 @@ import iphone15promax from "./assets/img/iphone15promax.jpg";
 import galaxys24ultra from "./assets/img/galaxys24ultra.jpg";
 import galaxyzflip5 from "./assets/img/galaxyzflip5.jpg";
 import galaxyzfold5 from "./assets/img/galaxyzfold5.jpg";
+import vertu from "./assets/img/vertu.jpg";
 // ********************************************************************
-const CONTRACT_ADDRESS = "0xA94B9474849EFaBbA8eeF8c64bED1CEeaE6944C1";
+const WEI_TO_ETH = "000000000000000000";
+const CONTRACT_ADDRESS = "0x3336598bd909d11D3b86DA059465613Ce4D42e17";
 const CONTRACT_ABI = [
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+    ],
+    name: "LogNewAlert",
+    type: "event",
+  },
   {
     inputs: [
       {
@@ -123,9 +138,15 @@ const smartphoneList = [
     img: galaxyzfold5,
     price: "4",
   },
+  {
+    id: "vertu",
+    name: "Vertu",
+    img: vertu,
+    price: "10",
+  },
 ];
 // ********************************************************************
-const web3 = new Web3(Web3.givenProvider || "http://127.0.0.1:8545");
+const web3 = new Web3(Web3.givenProvider || "http://127.0.0.1:7545");
 const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
 const accountEl = document.getElementById("account");
 const smartphoneListEl = document.getElementById("smartphoneList");
@@ -141,16 +162,18 @@ const createElementFromString = (string) => {
 
 const buySmartphone = async (smartphone) => {
   let time = new Date().toLocaleDateString("vi-VN");
+  let priceStr = smartphone.price + WEI_TO_ETH;
   await contract.methods
     .executeTransaction(smartphone.id, smartphone.price, "buy", time)
-    .send({ from: account, value: smartphone.price });
-
+    .send({ from: account, value: priceStr });
   displayBoughtList();
 };
 
 const displaySmartphoneList = async () => {
   smartphoneListEl.innerHTML = "";
+  let index = 0;
   for (let sp of smartphoneList) {
+    let btnId = "buyBtn" + index;
     const spEl = createElementFromString(
       `<div class="p-2">
         <div class="ticket card p-2 border border-primary border-2" style="width: 18rem;">
@@ -158,13 +181,18 @@ const displaySmartphoneList = async () => {
           <div class="card-body">
             <h5 class="card-title">${sp.name}</h5>
             <p class="card-text">${sp.price} ETH</p>
-            <button class="btn btn-primary">Buy Smartphone</button>
+            <button id="${btnId}" class="btn btn-primary">Buy Smartphone</button>
           </div>
         </div>
       </div>`
     );
-    spEl.onclick = buySmartphone.bind(null, sp);
+    // spEl.onclick = buySmartphone.bind(null, sp);
+    // document.getElementById(btnId).onclick = buySmartphone.bind(null, sp);
     smartphoneListEl.appendChild(spEl);
+    document
+      .getElementById(btnId)
+      .addEventListener("click", buySmartphone.bind(null, sp));
+    index++;
   }
 };
 

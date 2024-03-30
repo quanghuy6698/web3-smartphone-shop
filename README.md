@@ -7,8 +7,8 @@
 #### How to run, step by step:
 
 - Open Ganache
-- Change Ganache port to 8545
-- Change Metamask local server to 8545
+- Change Ganache port to 7545
+- Change Metamask local server to 7545
 - Import a wallet to Metamask
 - Run command `truffle migrate`
 - To client folder

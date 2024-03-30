@@ -10,6 +10,7 @@ contract SmartphoneShop {
     }
 
     Transaction[] public transactionList;
+    event LogNewAlert(string description);
 
     function executeTransaction(string calldata _id, uint _price, string calldata _transType, string calldata _transTime) external payable {
         require(msg.value >= _price, "Not enough ETH");
@@ -23,6 +24,7 @@ contract SmartphoneShop {
                 trans_time: _transTime
             })
         );
+        emit LogNewAlert('Buy a smartphone.');
     }
 
     function getTransactionLen() public view returns (uint){
